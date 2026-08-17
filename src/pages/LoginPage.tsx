@@ -10,6 +10,12 @@ export default function LoginPage() {
         password: ""
     });
 
+    // Success and error messages
+    const [successMessage, setSuccessMessage] = useState<string>("");
+    const [errorMessage, setErrorMessage] = useState<string>("");
+
+    
+
     // --- handleChange ---
         // 1. Get the changed field's name and new value from the event
         // 2. Update the form state (object { login, password }) by replacing only this field's value, without touching the others
