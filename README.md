@@ -1,75 +1,63 @@
-# React + TypeScript + Vite
+# Job Tracker — Front-end
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> 🚧 **Projet en cours de développement.** Ce dépôt contient le front-end de l'application. Le back-end, fonctionnellement complet et testé, est développé dans un dépôt séparé : [backend-job-tracker](https://github.com/MathieuBourasseau/backend-job-tracker).
 
-Currently, two official plugins are available:
+Application de suivi de candidatures (recherche d'emploi/alternance), pensée pour remplacer un suivi manuel type Excel. Projet personnel de portfolio, développé pour démontrer une maîtrise de React/TypeScript sur un projet complet consommant une API REST authentifiée : gestion de l'auth (JWT), formulaires, CRUD, état dérivé de données serveur.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Stack technique
 
-## React Compiler
+- **React 19** / **TypeScript**
+- **Vite**
+- **Tailwind CSS**
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Fonctionnalités prévues
 
-## Expanding the ESLint configuration
+- Connexion / inscription, avec stockage du token JWT et routes protégées
+- Liste des candidatures avec code couleur selon le statut (à faire, en cours, à relancer, refus)
+- Création d'une candidature
+- Vue détail et modification (entretien obtenu, raison de refus, dates de relance)
+- Suppression d'une candidature
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Lien avec le back-end
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Ce front consomme l'API REST exposée par [backend-job-tracker](https://github.com/MathieuBourasseau/backend-job-tracker) (Java 25 / Spring Boot / PostgreSQL). Toutes les routes liées aux candidatures sont protégées par authentification JWT (header `Authorization: Bearer <token>`).
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+| Méthode | Route | Auth requise | Description |
+|---|---|---|---|
+| `POST` | `/api/users` | Non | Créer un compte utilisateur |
+| `POST` | `/api/auth/login` | Non | Se connecter, renvoie un token JWT |
+| `POST` | `/api/applications` | Oui | Créer une candidature |
+| `GET` | `/api/applications` | Oui | Lister les candidatures de l'utilisateur connecté |
+| `GET` | `/api/applications/{applicationId}` | Oui | Récupérer une candidature |
+| `PUT` | `/api/applications/{applicationId}` | Oui | Modifier une candidature |
+| `DELETE` | `/api/applications/{applicationId}` | Oui | Supprimer une candidature |
+| `POST` | `/api/statuses` | Oui | Ajouter un nouveau statut à une candidature |
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Détail complet des DTOs et du modèle de données : voir le README du back-end.
 
-```
+## Lancer le projet en local
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+**Prérequis** : Node.js, et le [back-end](https://github.com/MathieuBourasseau/backend-job-tracker) lancé en local (par défaut sur `http://localhost:8080`).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1. Installer les dépendances :
+   ```bash
+   npm install
+   ```
+2. Copier `.env.example` en `.env.local` et adapter `VITE_API_URL` si besoin :
+   ```bash
+   cp .env.example .env.local
+   ```
+3. Lancer le serveur de dev :
+   ```bash
+   npm run dev
+   ```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Roadmap
 
-```
+1. ~~Mise en place du projet (Vite, TypeScript, Tailwind, structure)~~
+2. Authentification (login / inscription, gestion du token, routes protégées)
+3. Liste des candidatures avec code couleur
+4. Création d'une candidature
+5. Vue détail / modification
+6. Suppression
+7. Déploiement (Render pour le back, Vercel pour le front)
