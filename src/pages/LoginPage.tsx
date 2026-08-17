@@ -124,7 +124,6 @@ export default function LoginPage() {
 
                         {/* Remember me input */}
                         <div>
-                            <label htmlFor="rememberMe">Rester connecté</label>
                             <input 
                                 type="checkbox"
                                 onChange={handleRememberMe} 
@@ -132,6 +131,7 @@ export default function LoginPage() {
                                 name="rememberMe"
                                 id="rememberMe"
                             />
+                            <label htmlFor="rememberMe">Rester connecté</label>
                         </div>
                     </div>
                     <div>
