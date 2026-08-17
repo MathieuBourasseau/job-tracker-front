@@ -1,11 +1,13 @@
 import React, { useState } from "react"
 import { useNavigate } from "react-router"
+import { useAuth } from "../hooks/useAuth";
 import type { LoginFormData } from "../types/forms";
 
 
 export default function LoginPage() {
 
     const navigate = useNavigate();
+    const { login } = useAuth();
 
     // Create form data
     const [formData, setFormData] = useState<LoginFormData>({
@@ -65,12 +67,8 @@ export default function LoginPage() {
                     // Display success message
                     setSuccessMessage("Connexion réussie !");
 
-                    // Use local storage or session storage depending on user's choice
-                    if(formData.rememberMe){
-                        localStorage.setItem("token", data.token);
-                    } else {
-                        sessionStorage.setItem("token", data.token)
-                    }
+                    // Store the session in AuthContext, which picks the right storage
+                    login(data.token, data.email, data.id, formData.rememberMe);
 
                     // Hide success message after a few seconds and redirect towards user's applications
                     setTimeout(() => {
