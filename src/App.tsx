@@ -1,8 +1,13 @@
+import { Routes, Route } from 'react-router'
+import LoginPage from './pages/LoginPage'
+import ApplicationsPage from './pages/ApplicationsPage'
+
 function App() {
   return (
-    <div>
-      <h1>Job Tracker</h1>
-    </div>
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/candidatures" element={<ApplicationsPage />} />
+    </Routes>
   )
 }
 

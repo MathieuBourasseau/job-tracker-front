@@ -1,8 +1,11 @@
 import React, { useState } from "react"
+import { useNavigate } from "react-router"
 import type { LoginFormData } from "../types/forms";
 
 
 export default function LoginPage() {
+
+    const navigate = useNavigate();
 
     // Create form data
     const [formData, setFormData] = useState<LoginFormData>({
@@ -54,13 +57,11 @@ export default function LoginPage() {
                     // Store token in local storage
                     localStorage.setItem("token", data.token);
 
-                    // TODO
-                    // Hide success message after few seconds and redirect towards user's application
-                    //     setTimeout(() => {
-                    //         setSuccessMessage("");
-                    //         NavigateEvent("/candidatures")
-                    //     }, 3000)
-                    // }
+                    // Hide success message after a few seconds and redirect towards user's applications
+                    setTimeout(() => {
+                        setSuccessMessage("");
+                        navigate("/candidatures");
+                    }, 3000);
                 } else {
                     setErrorMessage(data);
                 }
