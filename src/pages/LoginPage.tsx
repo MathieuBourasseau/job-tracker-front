@@ -11,6 +11,7 @@ export default function LoginPage() {
     const [formData, setFormData] = useState<LoginFormData>({
         email: "",
         password: "",
+        rememberMe: false,
     });
 
     // Success and error messages
@@ -27,6 +28,14 @@ export default function LoginPage() {
             setFormData({ ...formData, [e.target.name]: e.target.value});
         }
 
+    // --- handleRememberMeCheck --- 
+
+        // According to the case checked or not the token duration will change
+
+        const handleRememberMe = (e: React.ChangeEvent<HTMLInputElement>) => {
+            setFormData({ ...formData, [e.target.name] : e.target.checked })
+        }
+
     // --- handleSubmit ---
 
         const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
@@ -41,6 +50,7 @@ export default function LoginPage() {
             try {
 
                 // Send request to back end with form data values
+
                 const response = await fetch(`${API_URL}/api/auth/login`, {
                     method: "POST",
                     headers: {"Content-Type" : "application/json"},
@@ -50,12 +60,17 @@ export default function LoginPage() {
                 const data = await response.json();
 
                 // Condition to see what to do with response
+
                 if(response.ok){
                     // Display success message
                     setSuccessMessage("Connexion réussie !");
 
-                    // Store token in local storage
-                    localStorage.setItem("token", data.token);
+                    // Use local storage or session storage depending on user's choice
+                    if(formData.rememberMe){
+                        localStorage.setItem("token", data.token);
+                    } else {
+                        sessionStorage.setItem("token", data.token)
+                    }
 
                     // Hide success message after a few seconds and redirect towards user's applications
                     setTimeout(() => {
@@ -80,6 +95,8 @@ export default function LoginPage() {
                 <fieldset>
                 <legend>Connexion à l'espace candidat</legend>
                     <div>
+
+                        {/* Email input */}
                         <div>
                             <label htmlFor="email">Email:</label>
                             <input
@@ -92,6 +109,7 @@ export default function LoginPage() {
                             />
                         </div>
 
+                        {/* Password input */}
                         <div>
                             <label htmlFor="password">Mot de passe:</label>
                             <input
@@ -101,6 +119,18 @@ export default function LoginPage() {
                                 id="password"
                                 value={formData.password ?? ""}
                                 placeholder="password123"
+                            />
+                        </div>
+
+                        {/* Remember me input */}
+                        <div>
+                            <label htmlFor="rememberMe">Rester connecté</label>
+                            <input 
+                                type="checkbox"
+                                onChange={handleRememberMe} 
+                                checked={formData.rememberMe ?? false}
+                                name="rememberMe"
+                                id="rememberMe"
                             />
                         </div>
                     </div>
