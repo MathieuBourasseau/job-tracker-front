@@ -1,4 +1,4 @@
-import { useState } from "react"
+import React, { useState } from "react"
 import type { LoginFormData } from "../types/forms";
 
 
@@ -15,10 +15,14 @@ export default function LoginPage() {
     const [errorMessage, setErrorMessage] = useState<string>("");
 
     
-
     // --- handleChange ---
+
         // 1. Get the changed field's name and new value from the event
         // 2. Update the form state (object { login, password }) by replacing only this field's value, without touching the others
+
+        const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+            setFormData({ ...formData, [e.target.name]: e.target.value});
+        }
 
     // --- handleSubmit ---
         // 1. Prevent the form's default behavior (e.preventDefault())
