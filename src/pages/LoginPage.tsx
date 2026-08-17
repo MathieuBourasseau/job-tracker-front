@@ -7,7 +7,7 @@ export default function LoginPage() {
     // Create form data
     const [formData, setFormData] = useState<LoginFormData>({
         email: "",
-        password: ""
+        password: "",
     });
 
     // Success and error messages
@@ -17,33 +17,114 @@ export default function LoginPage() {
     
     // --- handleChange ---
 
-        // 1. Get the changed field's name and new value from the event
-        // 2. Update the form state (object { login, password }) by replacing only this field's value, without touching the others
+        // Get the changed field's name and new value from the event
+        // Update the form state (object { login, password }) by replacing only this field's value, without touching the others
 
         const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             setFormData({ ...formData, [e.target.name]: e.target.value});
         }
 
     // --- handleSubmit ---
-        // 1. Prevent the form's default behavior (e.preventDefault())
-        // 2. Read the current form values from the state (already kept up to date by handleChange)
-        // 3. try :
-        //      a. Send a request to the backend (fetch) with these values
-        //      b. If the response is OK :
-        //           - Get the token, email and id from the response
-        //           - Store the token in localStorage
-        //           - Redirect the user to the applications list
-        //      c. Otherwise (response received but with an error, e.g. 401) :
-        //           - Get the error message returned by the server
-        //           - Display this message to the user
-        //    catch (error) :
-        //      - The request never reached the server (network issue)
-        //      - Display a generic message ("Unable to reach the server")
 
+        const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+            
+            // Prevent the form's default behavior 
+            e.preventDefault();
+
+            // Define API url 
+            const API_URL = import.meta.env.VITE_API_URL;
+            
+            // Try / catch error
+            try {
+
+                // Send request to back end with form data values
+                const response = await fetch(`${API_URL}/api/auth/login`, {
+                    method: "POST",
+                    headers: {"Content-Type" : "application/json"},
+                    body: JSON.stringify(formData),
+                });
+
+                const data = await response.json();
+
+                // Condition to see what to do with response
+                if(response.ok){
+                    // Display success message
+                    setSuccessMessage("Connexion réussie !");
+
+                    // Store token in local storage
+                    localStorage.setItem("token", data.token);
+
+                    // TODO
+                    // Hide success message after few seconds and redirect towards user's application
+                    //     setTimeout(() => {
+                    //         setSuccessMessage("");
+                    //         NavigateEvent("/candidatures")
+                    //     }, 3000)
+                    // }
+                } else {
+                    setErrorMessage(data);
+                }
+
+            } catch (error) {
+                console.error(error);
+                setErrorMessage("Impossible de joindre le serveur.");
+            }
+        }
 
     return (
-        <div>
+        <section>
 
-        </div>
+            {/* Form part */}
+            <form onSubmit={handleSubmit}>
+                <fieldset>
+                <legend>Connexion à l'espace candidat</legend>
+                    <div>
+                        <div>
+                            <label htmlFor="email">Email:</label>
+                            <input
+                                type="email"
+                                onChange={handleChange}
+                                name="email"
+                                id="email"
+                                value={formData.email ?? ""}
+                                placeholder="mon@email.com"
+                            />
+                        </div>
+
+                        <div>
+                            <label htmlFor="password">Mot de passe:</label>
+                            <input
+                                type="password"
+                                onChange={handleChange}
+                                name="password"
+                                id="password"
+                                value={formData.password ?? ""}
+                                placeholder="password123"
+                            />
+                        </div>
+                    </div>
+                    <div>
+                        <button type="submit">Se connecter</button>
+                    </div>
+                </fieldset>                
+            </form>
+
+            {/* Sucess message */}
+            {successMessage && (
+                <div>
+                    <p>{successMessage}</p>
+                    <span>✅</span>
+                </div>
+            )}
+            
+            {/* Error message */}
+            {errorMessage && (
+                <div>
+                    <p>{errorMessage}</p>
+                    <span>❌</span>
+                </div>
+            )}
+            
+        </section>
     )
 }
