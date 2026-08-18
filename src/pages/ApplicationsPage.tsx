@@ -7,6 +7,8 @@ import { IoBusinessOutline } from "react-icons/io5";
 import { MdLocationOn, MdOutlineSchedule, MdAutorenew, MdNotificationsActive, MdCancel } from "react-icons/md"
 import { FaBriefcase } from "react-icons/fa"
 
+import { Link } from "react-router";
+
 export default function ApplicationsPage() {
 
     // Extract token from context
@@ -122,29 +124,31 @@ export default function ApplicationsPage() {
             }
 
             return (
-                <article
-                    key={application.id}
-                    className={`py-2 px-4 text-sm cursor-pointer flex flex-col gap-4 md:text-base ${color} ${textColor}`}
-                >
-                    <div className="flex items-center gap-4">
-                        <IoBusinessOutline className={`text-xl ${iconColor}`} />
-                        <h2 className="text-xl">{application.companyName}</h2>
-                    </div>
-                    <div className="flex flex-col gap-2 py-2">
+                <Link to={`/candidatures/${application.id}`}>
+                    <article
+                        key={application.id}
+                        className={`py-2 px-4 text-sm cursor-pointer flex flex-col gap-4 md:text-base ${color} ${textColor}`}
+                    >
                         <div className="flex items-center gap-4">
-                            <MdLocationOn className={`text-xl ${iconColor}`} />
-                            <p>{application.location}</p>
+                            <IoBusinessOutline className={`text-xl ${iconColor}`} />
+                            <h2 className="text-xl">{application.companyName}</h2>
                         </div>
-                        <div className="flex items-center gap-4">
-                            <FaBriefcase className={`text-xl ${iconColor}`} />
-                            <p>{application.jobTitle}</p>
+                        <div className="flex flex-col gap-2 py-2">
+                            <div className="flex items-center gap-4">
+                                <MdLocationOn className={`text-xl ${iconColor}`} />
+                                <p>{application.location}</p>
+                            </div>
+                            <div className="flex items-center gap-4">
+                                <FaBriefcase className={`text-xl ${iconColor}`} />
+                                <p>{application.jobTitle}</p>
+                            </div>
+                            <div className="flex items-center gap-4">
+                                <StatusIcon className={`text-xl ${iconColor}`} />
+                                <p>{label}</p>
+                            </div>
                         </div>
-                        <div className="flex items-center gap-4">
-                            <StatusIcon className={`text-xl ${iconColor}`} />
-                            <p>{label}</p>
-                        </div>
-                    </div>
-                </article>
+                    </article>
+                </Link>
             )
         });
     } else {
