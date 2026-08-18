@@ -9,6 +9,7 @@ export default function ApplicationsPage() {
     // States
     const [applicationList, setApplicationList] = useState();
     const [errorMessage, setErrorMessage] = useState<string>("");
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     // API URL
     const API_URL = import.meta.env.VITE_API_URL;
@@ -21,6 +22,8 @@ export default function ApplicationsPage() {
 
             try {
 
+                setIsLoading(true)
+
                 // Send request to back end to get application list
                 const response = await fetch(`${API_URL}/api/applications`, {
                     method: "GET",
@@ -30,7 +33,7 @@ export default function ApplicationsPage() {
                     },
                 });
 
-                const data = await response.json();
+                const data = await response.json(); 
 
                 // Condition to see what to do with response
                 if (response.ok) {
@@ -39,13 +42,20 @@ export default function ApplicationsPage() {
                 } else {
                     setErrorMessage(data);
                 }
-                
+            
+            // If the server has problem a message is shown
             } catch (error) {
+
                 console.error(error)
                 setErrorMessage("Impossible de joindre le serveur")
+            
+            // In any success or error cases, loading state is getting back to false value
+            } finally {
+                setIsLoading(false)
             }
         }
 
+        // Call the function
         fetchApplications();
 
     },[])
