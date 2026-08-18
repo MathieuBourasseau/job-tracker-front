@@ -1,1 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import "tailwindcss";
+
+@theme {
+
+    /* Font style  */
+    --font-heading: "Inter", sans-serif;
+
+    /* Style for application color */
+    --color-status-todo: #ffffff;
+    --color-status-in-progress: #fde047;
+    --color-status-follow-up: #f97316;
+    --color-status-refused: #dc2626;
+
+    /* Section spacing */
+    --spacing-mobile-top-section: 1.5rem;
+    --spacing-applications: 4px;
+    
+
+}
+
+@layer base {
+    body {
+        font-family: var(--font-heading);
+    }
+
+    section {
+        padding-top: var(--spacing-mobile-top-section)
+    }
+}
