@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth"
+import type { Application } from "../types/application";
+
+// API URL
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function ApplicationsPage() {
 
@@ -7,13 +11,11 @@ export default function ApplicationsPage() {
     const { token } = useAuth();
 
     // States
-    const [applicationList, setApplicationList] = useState();
+    const [applicationList, setApplicationList] = useState<Application[]>([]);
     const [errorMessage, setErrorMessage] = useState<string>("");
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    // API URL
-    const API_URL = import.meta.env.VITE_API_URL;
-
+    
     // Load applications lists once when the page is shown
     useEffect(() => {
 
@@ -57,13 +59,31 @@ export default function ApplicationsPage() {
 
         // Call the function
         fetchApplications();
+    },[token])
 
-    },[])
+    // Condition to display content 
+    let content;
 
+    if(errorMessage){
+        content = errorMessage
+    } else if (isLoading){
+        content = "Chargement des candidatures en cours"
+    } else if (applicationList.length > 0) {
+        content = applicationList.map((application) => (
+            <article key={application.id}>
+                <p>{application.companyActivity}</p>
+            </article>
+        ));
+    } else {
+        content = "Il n'y a actuellement aucune candidature effectuée."
+    }
 
     return (
         <div>
             <h1>Mes candidatures</h1>
+            <div>
+                {content}
+            </div>
         </div>
     )
 }
