@@ -61,11 +61,45 @@ export default function ApplicationsPage() {
     } else if (isLoading){
         content = "Chargement des candidatures en cours"
     } else if (applicationList.length > 0) {
-        content = applicationList.map((application) => (
-            <article key={application.id}>
-                <p>{application.companyActivity}</p>
-            </article>
-        ));
+
+        content = applicationList.map((application) => {
+
+            // Color value will change according to the status and conditions
+            let color;
+
+            // Get the latest status from each application
+            const latestStatus = application.statuses.reduce((latest, current) => {
+
+                if(latest.date > current.date){
+                    return latest;
+                } else {
+                    return current;
+                }
+            }, application.statuses[0]);
+
+            // Determine color of each application according to its current state
+            if(latestStatus.state === "EN_COURS" && application.aRelancer){
+                color = "bg-orange-300";
+
+            } else if(latestStatus.state === "A_FAIRE"){
+                color = "bg-white";
+
+            } else if(latestStatus.state === "EN_COURS" && !application.aRelancer){
+                color = "bg-yellow-300";
+
+            } else {
+                color = "bg-red-500";
+            }
+
+            return (
+                <article 
+                    key={application.id}
+                    className={color}
+                >
+                    <p>{application.companyActivity}</p>
+                </article>
+            )
+        });
     } else {
         content = "Il n'y a actuellement aucune candidature effectuée."
     }
