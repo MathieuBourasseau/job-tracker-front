@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth"
+import { getApplications } from "../api/application";
 import type { Application } from "../types/application";
 
-// API URL
-const API_URL = import.meta.env.VITE_API_URL;
+
 
 export default function ApplicationsPage() {
 
@@ -26,23 +26,15 @@ export default function ApplicationsPage() {
 
                 setIsLoading(true)
 
-                // Send request to back end to get application list
-                const response = await fetch(`${API_URL}/api/applications`, {
-                    method: "GET",
-                    headers: { 
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${token}` 
-                    },
-                });
+                // Ask the API layer for the application list
+                const result = await getApplications(token!);
 
-                const data = await response.json(); 
-
-                // Condition to see what to do with response
-                if (response.ok) {
+                // Condition to see what to do with the result
+                if (result.ok) {
                     // Upload application list
-                    setApplicationList(data)
+                    setApplicationList(result.data)
                 } else {
-                    setErrorMessage(data);
+                    setErrorMessage(result.error);
                 }
             
             // If the server has problem a message is shown
