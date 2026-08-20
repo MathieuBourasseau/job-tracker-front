@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router"
+import { Link, useParams } from "react-router"
 import type { Application } from "../types/application";
 import { useAuth } from "../hooks/useAuth";
 import { getApplicationsById } from "../api/application";
@@ -165,6 +165,9 @@ export default function ApplicationDetails() {
     return (
         <div>
             {content}
+            <Link to="/candidatures">
+                <p>Revenir à toutes mes candidatures</p>
+            </Link>
         </div>
     )
 }
