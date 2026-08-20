@@ -241,7 +241,10 @@ export default function ApplicationDetails() {
                     <p>Modifier ma candidature</p>
                 </Link>
 
-                <Link to="/candidatures" className="border-2 border-gray-200 rounded-lg px-3 py-2 hover:border-gray-500 hover:bg-gray-300 font-semibold">
+                <Link 
+                    to="/candidatures" 
+                    className="border-2 border-gray-200 rounded-lg px-3 py-2 hover:border-gray-500 hover:bg-gray-300 font-semibold"
+                >
                     <p>Revenir à mes candidatures</p>
                 </Link>
                 <button

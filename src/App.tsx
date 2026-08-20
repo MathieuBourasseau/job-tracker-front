@@ -4,6 +4,7 @@ import RegisterPage from './pages/RegisterPage'
 import ApplicationsPage from './pages/ApplicationsPage'
 import ProtectedRoute from "./components/ProtectedRoute"
 import ApplicationDetails from "./pages/ApplicationDetails"
+import ApplicationCreate from "./pages/ApplicationCreate"
 
 function App() {
     return (
@@ -23,6 +24,14 @@ function App() {
                 element={
                     <ProtectedRoute>
                         <ApplicationDetails />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/candidatures/ajouter"
+                element={
+                    <ProtectedRoute>
+                        <ApplicationCreate />
                     </ProtectedRoute>
                 }
             />

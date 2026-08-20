@@ -112,6 +112,12 @@ export default function ApplicationsPage() {
     return (
         <section className="max-w-2xl mx-auto flex flex-col gap-6 px-4">
             <h1 className="text-center text-2xl md:text-4xl lg:text-5xl">Mes candidatures</h1>
+            <Link 
+                to="/candidatures/ajouter"
+                className="self-start border-2 border-gray-200 rounded-lg px-3 py-2 hover:border-gray-500 hover:bg-gray-300 font-semibold"
+            >
+                Ajouter une candidature
+            </Link>
             <div className="flex flex-col gap-4">
                 {content}
             </div>
