@@ -1,6 +1,7 @@
 // API URL
 const API_URL = import.meta.env.VITE_API_URL;
 
+// --- Function to get the list of applications ---
 export async function getApplications(token: string) {
 
     // No try/catch here: a network failure should throw and let the
@@ -19,5 +20,26 @@ export async function getApplications(token: string) {
         return { ok: true, data };
     } else {
         return { ok: false, error: data };
+    }
+}
+
+// --- Function to get an application by id --- 
+export async function getApplicationsById(token: string, id: string) {
+
+    // Ask API for the application selected
+    const response = await fetch(`${API_URL}/api/applications/${id}`, {
+        method: "GET",
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": `Bearer ${token}`
+        }
+    });
+
+    const data = await response.json();
+
+    if(response.ok){
+        return { ok: true, data};
+    } else {
+        return { ok: false, error:data }
     }
 }
