@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { useNavigate } from "react-router"
 import { useAuth } from "../hooks/useAuth";
+import { loginUser } from "../api/auth";
 import type { LoginFormData } from "../types/forms";
 
 
@@ -42,33 +43,22 @@ export default function LoginPage() {
 
         const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
             
-            // Prevent the form's default behavior 
+            // Prevent the form's default behavior
             e.preventDefault();
 
-            // Define API url 
-            const API_URL = import.meta.env.VITE_API_URL;
-            
             // Try / catch error
             try {
 
-                // Send request to back end with form data values
+                // Ask the API layer to log the user in
+                const result = await loginUser(formData.email, formData.password);
 
-                const response = await fetch(`${API_URL}/api/auth/login`, {
-                    method: "POST",
-                    headers: {"Content-Type" : "application/json"},
-                    body: JSON.stringify(formData),
-                });
-
-                const data = await response.json();
-
-                // Condition to see what to do with response
-
-                if(response.ok){
+                // Condition to see what to do with the result
+                if(result.ok){
                     // Display success message
                     setSuccessMessage("Connexion réussie !");
 
                     // Store the session in AuthContext, which picks the right storage
-                    login(data.token, data.email, data.id, formData.rememberMe);
+                    login(result.data.token, result.data.email, result.data.id, formData.rememberMe);
 
                     // Hide success message after a few seconds and redirect towards user's applications
                     setTimeout(() => {
@@ -76,7 +66,7 @@ export default function LoginPage() {
                         navigate("/candidatures");
                     }, 3000);
                 } else {
-                    setErrorMessage(data);
+                    setErrorMessage(result.error);
                 }
 
             } catch (error) {

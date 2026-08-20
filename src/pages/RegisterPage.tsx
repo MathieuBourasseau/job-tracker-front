@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { useNavigate } from "react-router"
+import { registerUser } from "../api/auth";
 import type { RegisterFormData } from "../types/forms";
 
 
@@ -45,26 +46,14 @@ export default function RegisterPage() {
                 return;
             }
 
-            // Define API url
-            const API_URL = import.meta.env.VITE_API_URL;
-
             // Try / catch error
             try {
 
-                // Send request to back end with only the fields it expects
-                const response = await fetch(`${API_URL}/api/users`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        email: formData.email,
-                        password: formData.password,
-                    }),
-                });
+                // Ask the API layer to register the user, sending only the fields it expects
+                const result = await registerUser(formData.email, formData.password);
 
-                const data = await response.json();
-
-                // Condition to see what to do with response
-                if (response.ok) {
+                // Condition to see what to do with the result
+                if (result.ok) {
                     // Display success message
                     setSuccessMessage("Compte créé avec succès !");
 
@@ -74,7 +63,7 @@ export default function RegisterPage() {
                         navigate("/login");
                     }, 3000);
                 } else {
-                    setErrorMessage(data);
+                    setErrorMessage(result.error);
                 }
 
             } catch (error) {
