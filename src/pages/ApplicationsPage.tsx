@@ -4,10 +4,11 @@ import { getApplications } from "../api/application";
 import type { Application } from "../types/application";
 
 import { IoBusinessOutline } from "react-icons/io5";
-import { MdLocationOn, MdOutlineSchedule, MdAutorenew, MdNotificationsActive, MdCancel } from "react-icons/md"
+import { MdLocationOn } from "react-icons/md"
 import { FaBriefcase } from "react-icons/fa"
 
 import { Link } from "react-router";
+import { getStatusDisplay } from "../utils/statusDisplay";
 
 export default function ApplicationsPage() {
 
@@ -68,60 +69,8 @@ export default function ApplicationsPage() {
 
         content = applicationList.map((application) => {
 
-            // Color value will change according to the status and conditions
-            let color;
-
-            // Label value will change according to application state
-            let label
-
-            // Text color will change to stay readable against the background color
-            let textColor
-
-            // Icon color, a bit more saturated than the text color, matching the status theme
-            let iconColor
-
-            // Icon component illustrating the status, different per state
-            let StatusIcon
-
-            // Get the latest status from each application
-            const latestStatus = application.statuses.reduce((latest, current) => {
-
-                if(latest.date > current.date){
-                    return latest;
-                } else {
-                    return current;
-                }
-            }, application.statuses[0]);
-
-            // Determine color of each application according to its current state
-            if(latestStatus.state === "EN_COURS" && application.aRelancer){
-                color = "bg-status-follow-up";
-                label= "A relancer"
-                textColor = "text-white"
-                iconColor = "text-white"
-                StatusIcon = MdNotificationsActive
-
-            } else if(latestStatus.state === "A_FAIRE"){
-                color = "bg-status-todo";
-                label = "A faire"
-                textColor = "text-emerald-700"
-                iconColor = "text-emerald-500"
-                StatusIcon = MdOutlineSchedule
-
-            } else if(latestStatus.state === "EN_COURS" && !application.aRelancer){
-                color = "bg-status-in-progress";
-                label = "En cours"
-                textColor = "text-black"
-                iconColor = "text-black"
-                StatusIcon = MdAutorenew
-
-            } else {
-                color = "bg-status-refused";
-                label = "Refus"
-                textColor = "text-white"
-                iconColor = "text-white"
-                StatusIcon = MdCancel
-            }
+            // Get color, label, and icon representing this application's status
+            const { color, label, textColor, iconColor, StatusIcon } = getStatusDisplay(application);
 
             return (
                 <Link
