@@ -43,3 +43,23 @@ export async function getApplicationsById(token: string, id: string) {
         return { ok: false, error:data }
     }
 }
+
+// --- Function to delete an application by id --- 
+export async function deleteApplicationById(token:string, id: string){
+
+    // Ask API to find the application and delete it
+    const response = await fetch(`${API_URL}/api/applications/${id}`, {
+        method: "DELETE",
+        headers: {
+            "Content-type" : "application/json",
+            "Authorization" : `Bearer ${token}`
+        }
+    });
+
+    if(response.ok){
+        return {ok: true, data: "Candidature supprimée"}
+    } else {
+        const data = await response.json();
+        return {ok: false, error:data}
+    }
+}
