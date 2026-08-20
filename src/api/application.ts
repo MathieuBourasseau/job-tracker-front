@@ -57,9 +57,9 @@ export async function deleteApplicationById(token:string, id: string){
     });
 
     if(response.ok){
-        return {ok: true, data: "Candidature supprimée"}
+        return {ok: true as const, data: "Candidature supprimée"}
     } else {
         const data = await response.json();
-        return {ok: false, error:data}
+        return {ok: false as const, error:data}
     }
 }

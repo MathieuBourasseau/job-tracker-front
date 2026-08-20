@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router"
+import { Link, useNavigate, useParams } from "react-router"
 import type { Application } from "../types/application";
 import { useAuth } from "../hooks/useAuth";
-import { getApplicationsById } from "../api/application";
+import { deleteApplicationById, getApplicationsById } from "../api/application";
 
 import { IoBusinessOutline } from "react-icons/io5";
 import {
@@ -37,10 +37,14 @@ export default function ApplicationDetails() {
     // Get token from context
     const { token } = useAuth();
 
+    const navigate = useNavigate();
+
     // States required to handle application and loading
     const [application, setApplication] = useState<Application>();
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isDeleting, setIsDeleting] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>("");
+    const [successMessage, setSuccessMessage] = useState<string>("");
 
     // Get application selected each time the page is loaded and the id is changing
     useEffect(() => {
@@ -63,13 +67,13 @@ export default function ApplicationDetails() {
                     setErrorMessage(result.error)
                 }
 
-                // If the server has a problem an error is displayed
+            // If the server has a problem an error is displayed
             } catch (error) {
 
                 console.error(error);
                 setErrorMessage("Impossible de joindre le serveur.")
 
-                // In any success or error cases, loading state is getting back to false value
+            // In any success or error cases, loading state is getting back to false value
             } finally {
                 setIsLoading(false);
             }
@@ -80,6 +84,39 @@ export default function ApplicationDetails() {
 
     }, [id, token])
 
+    // --- Function to delete application --- 
+    async function handleDelete() {
+
+        try {
+
+            setIsDeleting(true);
+
+            // Call the API to delete the application
+            const result = await deleteApplicationById(token!, id!);
+
+            // Display success delete message or error during deleting
+            if (result.ok) {
+                setSuccessMessage(result.data);
+                setTimeout(() => {
+                    setSuccessMessage("");
+                    navigate("/candidatures")
+                }, 3000);
+            } else {
+                setErrorMessage(result.error)
+            }
+
+        // If the server has a problem an error is displayed
+        } catch (error) {
+
+            console.error(error);
+            setErrorMessage("Impossible de joindre le serveur.");
+
+        // In any success or error cases, deleting state is getting back to false value
+        } finally {
+            setIsDeleting(false);
+        }
+    }
+
     // Condition to display content
     let content;
 
@@ -87,6 +124,10 @@ export default function ApplicationDetails() {
         content = errorMessage;
     } else if (isLoading) {
         content = "Chargement de la candidature en cours"
+    } else if(isDeleting){
+        content = "Suppression en cours"
+    } else if(successMessage){
+        content = successMessage;
     } else if (application) {
 
         // Get color, label, and icon representing this application's status
@@ -203,7 +244,10 @@ export default function ApplicationDetails() {
                 <Link to="/candidatures" className="border-2 border-gray-200 rounded-lg px-3 py-2 hover:border-gray-500 hover:bg-gray-300 font-semibold">
                     <p>Revenir à mes candidatures</p>
                 </Link>
-                <button className="border-2 border-gray-200 rounded-lg px-3 py-2 hover:border-gray-500 hover:bg-gray-300 font-semibold">
+                <button
+                    className="border-2 border-gray-200 rounded-lg px-3 py-2 hover:border-gray-500 hover:bg-gray-300 font-semibold"
+                    onClick={() => handleDelete()}
+                >
                     <p>Supprimer ma candidature</p>
                 </button>
             </div>
