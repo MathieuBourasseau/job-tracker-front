@@ -12,3 +12,16 @@ export type RegisterFormData = {
     confirmPassword: string;
     acceptPolicy: boolean;
 }
+
+// Create application form type
+export type NewApplicationFormData = {
+    link: string;
+    contact: string;
+    jobTitle: string;
+    location: string;
+    salary: number;
+    contract: string;
+    applicationDate: string;
+    companyName: string;
+    companyActivity: string;
+}

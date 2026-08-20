@@ -1,3 +1,5 @@
+import type { NewApplicationFormData } from "../types/forms";
+
 // API URL
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -41,6 +43,28 @@ export async function getApplicationsById(token: string, id: string) {
         return { ok: true, data};
     } else {
         return { ok: false, error:data }
+    }
+}
+
+// --- Function to create an application ---
+export async function createApplication(token: string, formData: NewApplicationFormData) {
+
+    // Ask API to create an application for the user
+    const response = await fetch(`${API_URL}/api/applications`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify(formData),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+        return { ok: true as const, data };
+    } else {
+        return { ok: false as const, error: data };
     }
 }
 
