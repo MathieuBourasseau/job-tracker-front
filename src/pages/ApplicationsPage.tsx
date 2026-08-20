@@ -124,9 +124,11 @@ export default function ApplicationsPage() {
             }
 
             return (
-                <Link to={`/candidatures/${application.id}`}>
+                <Link
+                    key={application.id}
+                    to={`/candidatures/${application.id}`}
+                >
                     <article
-                        key={application.id}
                         className={`py-2 px-4 text-sm cursor-pointer flex flex-col gap-4 md:text-base ${color} ${textColor}`}
                     >
                         <div className="flex items-center gap-4">
