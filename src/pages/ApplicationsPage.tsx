@@ -76,15 +76,22 @@ export default function ApplicationsPage() {
                 <Link
                     key={application.id}
                     to={`/candidatures/${application.id}`}
+                    className="block"
                 >
                     <article
-                        className={`py-2 px-4 text-sm cursor-pointer flex flex-col gap-4 md:text-base ${color} ${textColor}`}
+                        className={`rounded-lg p-4 text-sm cursor-pointer flex flex-col gap-3 shadow-sm hover:shadow-md transition-shadow md:text-base ${color} ${textColor}`}
                     >
-                        <div className="flex items-center gap-4">
-                            <IoBusinessOutline className={`text-xl ${iconColor}`} />
-                            <h2 className="text-xl">{application.companyName}</h2>
+                        <div className="flex items-center justify-between gap-4">
+                            <div className="flex items-center gap-3">
+                                <IoBusinessOutline className={`text-xl ${iconColor}`} />
+                                <h2 className="text-lg font-semibold">{application.companyName}</h2>
+                            </div>
+                            <span className="flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full bg-white/40">
+                                <StatusIcon className="text-sm" />
+                                {label}
+                            </span>
                         </div>
-                        <div className="flex flex-col gap-2 py-2">
+                        <div className="flex flex-col gap-2 pl-9">
                             <div className="flex items-center gap-4">
                                 <MdLocationOn className={`text-xl ${iconColor}`} />
                                 <p>{application.location}</p>
@@ -92,10 +99,6 @@ export default function ApplicationsPage() {
                             <div className="flex items-center gap-4">
                                 <FaBriefcase className={`text-xl ${iconColor}`} />
                                 <p>{application.jobTitle}</p>
-                            </div>
-                            <div className="flex items-center gap-4">
-                                <StatusIcon className={`text-xl ${iconColor}`} />
-                                <p>{label}</p>
                             </div>
                         </div>
                     </article>
@@ -107,9 +110,9 @@ export default function ApplicationsPage() {
     }
 
     return (
-        <section className="flex flex-col gap-6">
+        <section className="max-w-2xl mx-auto flex flex-col gap-6 px-4">
             <h1 className="text-center text-2xl md:text-4xl lg:text-5xl">Mes candidatures</h1>
-            <div className="flex flex-col">
+            <div className="flex flex-col gap-4">
                 {content}
             </div>
         </section>
