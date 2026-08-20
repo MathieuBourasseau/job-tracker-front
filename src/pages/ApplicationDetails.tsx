@@ -18,8 +18,16 @@ import {
     MdHighlightOff,
     MdComment,
 } from "react-icons/md"
-import { FaBriefcase } from "react-icons/fa"
 import { getStatusDisplay } from "../utils/statusDisplay";
+
+// Turn a raw ISO date string into a readable French date
+function formatDate(date: string) {
+    return new Date(date).toLocaleDateString("fr-FR", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+    });
+}
 
 export default function ApplicationDetails() {
 
@@ -48,7 +56,7 @@ export default function ApplicationDetails() {
                 const result = await getApplicationsById(token!, id!);
 
                 // If the result.ok is true we can show the application
-                // If result.ok is false, we can update state with error 
+                // If result.ok is false, we can update state with error
                 if (result.ok) {
                     setApplication(result.data)
                 } else {
@@ -85,90 +93,108 @@ export default function ApplicationDetails() {
         const { color, label, textColor, iconColor, StatusIcon } = getStatusDisplay(application);
 
         content = (
-            <article
-                className={`py-2 px-4 text-sm flex flex-col gap-4 md:text-base ${color} ${textColor}`}
-            >
-                <div className="flex items-center gap-4">
-                    <IoBusinessOutline className={`text-xl ${iconColor}`} />
-                    <h2 className="text-xl">{application.companyName}</h2>
-                </div>
-                <div className="flex flex-col gap-2 py-2">
+            <div className="flex flex-col gap-6">
+
+                {/* Header: identity + status, the only colored block */}
+                <div className={`p-4 rounded flex flex-col gap-2 ${color} ${textColor}`}>
                     <div className="flex items-center gap-4">
-                        <MdLocationOn className={`text-xl ${iconColor}`} />
-                        <p>{application.location}</p>
+                        <IoBusinessOutline className={`text-xl ${iconColor}`} />
+                        <h2 className="text-xl font-semibold">{application.companyName}</h2>
                     </div>
-                    <div className="flex items-center gap-4">
-                        <FaBriefcase className={`text-xl ${iconColor}`} />
-                        <p>{application.jobTitle}</p>
-                    </div>
-                    <div className="flex items-center gap-4">
+                    <p className="pl-9">{application.jobTitle}</p>
+                    <div className="flex items-center gap-4 pl-0">
                         <StatusIcon className={`text-xl ${iconColor}`} />
                         <p>{label}</p>
                     </div>
+                </div>
+
+                {/* Section: informations */}
+                <div className="flex flex-col gap-3">
+                    <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                        Informations
+                    </h3>
                     <div className="flex items-center gap-4">
-                        <MdCategory className={`text-xl ${iconColor}`} />
-                        <p>{application.companyActivity}</p>
+                        <MdLocationOn className="text-xl" />
+                        <p>{application.location}</p>
                     </div>
                     <div className="flex items-center gap-4">
-                        <MdDescription className={`text-xl ${iconColor}`} />
+                        <MdDescription className="text-xl" />
                         <p>{application.contract}</p>
                     </div>
                     <div className="flex items-center gap-4">
-                        <MdAttachMoney className={`text-xl ${iconColor}`} />
-                        <p>{application.salary}</p>
+                        <MdAttachMoney className="text-xl" />
+                        <p>{application.salary.toLocaleString("fr-FR")} €</p>
                     </div>
                     <div className="flex items-center gap-4">
-                        <MdCalendarToday className={`text-xl ${iconColor}`} />
-                        <p>{application.applicationDate}</p>
+                        <MdCategory className="text-xl" />
+                        <p>{application.companyActivity}</p>
                     </div>
                     <div className="flex items-center gap-4">
-                        <MdPerson className={`text-xl ${iconColor}`} />
+                        <MdCalendarToday className="text-xl" />
+                        <p>Candidature envoyée le {formatDate(application.applicationDate)}</p>
+                    </div>
+                </div>
+
+                {/* Section: contact */}
+                <div className="flex flex-col gap-3 border-t border-gray-200 pt-6">
+                    <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                        Contact
+                    </h3>
+                    <div className="flex items-center gap-4">
+                        <MdPerson className="text-xl" />
                         <p>{application.contact}</p>
                     </div>
                     <div className="flex items-center gap-4">
-                        <MdLink className={`text-xl ${iconColor}`} />
+                        <MdLink className="text-xl" />
                         <a href={application.link} target="_blank" rel="noreferrer" className="underline">
-                            {application.link}
+                            Voir l'annonce
                         </a>
                     </div>
+                </div>
+
+                {/* Section: suivi */}
+                <div className="flex flex-col gap-3 border-t border-gray-200 pt-6">
+                    <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                        Suivi
+                    </h3>
                     <div className="flex items-center gap-4">
                         {application.interview ? (
-                            <MdCheckCircle className={`text-xl ${iconColor}`} />
+                            <MdCheckCircle className="text-xl" />
                         ) : (
-                            <MdHighlightOff className={`text-xl ${iconColor}`} />
+                            <MdHighlightOff className="text-xl" />
                         )}
                         <p>{application.interview ? "Entretien obtenu" : "Pas d'entretien"}</p>
                     </div>
                     {application.refusalReason && (
                         <div className="flex items-center gap-4">
-                            <MdComment className={`text-xl ${iconColor}`} />
+                            <MdComment className="text-xl" />
                             <p>{application.refusalReason}</p>
                         </div>
                     )}
                     {application.applicationReSubmissionDate && (
                         <div className="flex items-center gap-4">
-                            <MdOutlineSchedule className={`text-xl ${iconColor}`} />
-                            <p>Relance du {application.applicationReSubmissionDate}</p>
+                            <MdOutlineSchedule className="text-xl" />
+                            <p>Relance du {formatDate(application.applicationReSubmissionDate)}</p>
                         </div>
                     )}
                     {application.applicationReSubmissionDate2 && (
                         <div className="flex items-center gap-4">
-                            <MdOutlineSchedule className={`text-xl ${iconColor}`} />
-                            <p>Relance du {application.applicationReSubmissionDate2}</p>
+                            <MdOutlineSchedule className="text-xl" />
+                            <p>Relance du {formatDate(application.applicationReSubmissionDate2)}</p>
                         </div>
                     )}
                 </div>
-            </article>
+            </div>
         )
     }
 
     return (
-        <div>
+        <section className="max-w-2xl mx-auto flex flex-col gap-6 px-4">
+            <h1 className="text-2xl md:text-4xl lg:text-5xl">Ma candidature</h1>
             {content}
             <Link to="/candidatures">
-                <p>Revenir à toutes mes candidatures</p>
+                <p>Revenir à mes candidatures</p>
             </Link>
-        </div>
+        </section>
     )
 }
-
