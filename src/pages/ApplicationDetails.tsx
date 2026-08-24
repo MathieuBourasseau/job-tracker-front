@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router"
-import type { Application } from "../types/application";
+import type { Application, StatusState } from "../types/application";
 import { useAuth } from "../hooks/useAuth";
 import { deleteApplicationById, getApplicationsById } from "../api/application";
+import { createStatus } from "../api/status";
 
 import { IoBusinessOutline } from "react-icons/io5";
 import {
@@ -43,6 +44,7 @@ export default function ApplicationDetails() {
     const [application, setApplication] = useState<Application>();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isDeleting, setIsDeleting] = useState<boolean>(false);
+    const [isChangingStatus, setIsChangingStatus] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>("");
     const [successMessage, setSuccessMessage] = useState<string>("");
 
@@ -117,6 +119,36 @@ export default function ApplicationDetails() {
         }
     }
 
+    // --- Function to change the application's status ---
+    async function handleStatusChange(state: StatusState) {
+
+        try {
+
+            setIsChangingStatus(true);
+
+            // Ask the API to add a new status to this application
+            const result = await createStatus(token!, { state, applicationId: Number(id) });
+
+            // On success, replace application with the fresh version the backend returns
+            // (it already contains the new status and the recalculated aRelancer)
+            if (result.ok) {
+                setApplication(result.data);
+            } else {
+                setErrorMessage(result.error);
+            }
+
+        // If the server has a problem an error is displayed
+        } catch (error) {
+
+            console.error(error);
+            setErrorMessage("Impossible de joindre le serveur.");
+
+        // In any success or error cases, changing status state is getting back to false value
+        } finally {
+            setIsChangingStatus(false);
+        }
+    }
+
     // Condition to display content
     let content;
 
@@ -126,6 +158,8 @@ export default function ApplicationDetails() {
         content = "Chargement de la candidature en cours"
     } else if(isDeleting){
         content = "Suppression en cours"
+    } else if(isChangingStatus){
+        content = "Mise à jour du statut en cours"
     } else if(successMessage){
         content = successMessage;
     } else if (application) {
@@ -229,6 +263,11 @@ export default function ApplicationDetails() {
         )
     }
 
+    // The most recent status, used to disable the button matching the current state
+    const latestStatus = application?.statuses.reduce((latest, current) =>
+        current.date > latest.date ? current : latest
+    ).state;
+
     return (
         <section className="max-w-2xl mx-auto flex flex-col gap-6 px-4">
             <h1 className="text-2xl md:text-4xl lg:text-5xl">Ma candidature</h1>
@@ -252,6 +291,20 @@ export default function ApplicationDetails() {
                     onClick={() => handleDelete()}
                 >
                     <p>Supprimer ma candidature</p>
+                </button>
+                <button
+                    className="border-2 border-gray-200 rounded-lg px-3 py-2 hover:border-gray-500 hover:bg-gray-300 font-semibold disabled:opacity-50 disabled:hover:border-gray-200 disabled:hover:bg-transparent"
+                    onClick={() => handleStatusChange("EN_COURS")}
+                    disabled={!application || isChangingStatus || latestStatus === "EN_COURS"}
+                >
+                    <p>Passer en cours</p>
+                </button>
+                <button
+                    className="border-2 border-gray-200 rounded-lg px-3 py-2 hover:border-gray-500 hover:bg-gray-300 font-semibold disabled:opacity-50 disabled:hover:border-gray-200 disabled:hover:bg-transparent"
+                    onClick={() => handleStatusChange("REFUS")}
+                    disabled={!application || isChangingStatus || latestStatus === "REFUS"}
+                >
+                    <p>Marquer refusée</p>
                 </button>
             </div>
 

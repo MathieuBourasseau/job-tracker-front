@@ -1,3 +1,5 @@
+import type { StatusState } from "./application";
+
 // Login form type
 export type LoginFormData = {
     email: string;
@@ -41,4 +43,10 @@ export type UpdateApplicationFormData = {
     applicationReSubmissionDate2: string;
     interview: boolean;
     refusalReason: string;
+}
+
+// New status type
+export type NewStatusFormData = {
+    state: StatusState;
+    applicationId: number;
 }
