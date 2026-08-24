@@ -160,7 +160,7 @@ export default function RegisterPage() {
 
     return (
         <section className="max-w-md mx-auto flex flex-col gap-6 px-4 py-4 md:py-6 mt-12">
-            <h1 className="text-2xl md:text-4xl lg:text-5xl py-2 md:py-4">Créer un compte</h1>
+            <h1 className="text-left md:text-center text-2xl md:text-4xl lg:text-5xl py-2 md:py-4">Créer un compte</h1>
             {content}
             <p className="text-sm">
                 Déjà un compte ? <Link to="/login" className="underline font-semibold">Se connecter</Link>

@@ -270,7 +270,7 @@ export default function ApplicationDetails() {
 
     return (
         <section className="max-w-2xl mx-auto flex flex-col gap-6 px-4 py-4 md:py-6">
-            <h1 className="text-2xl md:text-4xl lg:text-5xl py-2 md:py-4">Ma candidature</h1>
+            <h1 className="text-left md:text-center text-2xl md:text-4xl lg:text-5xl py-2 md:py-4">Ma candidature</h1>
 
             {/* Application choices */}
 

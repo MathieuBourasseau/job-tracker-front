@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router";
-import { MdMenu, MdClose } from "react-icons/md";
+import { MdMenu, MdClose, MdExplore } from "react-icons/md";
 import { useAuth } from "../hooks/useAuth";
 
 export default function Header() {
@@ -14,7 +14,8 @@ export default function Header() {
     return (
         <header className="border-b border-gray-200">
             <div className="flex justify-between items-center gap-4 px-4 py-4">
-                <Link to={token ? "/candidatures" : "/login"} className="font-semibold whitespace-nowrap">
+                <Link to={token ? "/candidatures" : "/login"} className="flex items-center gap-2 font-semibold whitespace-nowrap">
+                    <MdExplore className="text-2xl text-green-600" />
                     Job Tracker
                 </Link>
 
