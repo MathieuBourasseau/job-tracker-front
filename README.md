@@ -1,6 +1,6 @@
 # Job Tracker — Front-end
 
-> Ce dépôt contient le front-end de l'application, fonctionnellement complet. Le back-end, également fonctionnellement complet et testé, est développé dans un dépôt séparé : [backend-job-tracker](https://github.com/MathieuBourasseau/backend-job-tracker). Il ne reste que le déploiement (facultatif) avant de considérer le projet terminé.
+> 🔗 **[Voir l'application en ligne](https://job-tracker-front-three.vercel.app/)** — le back-end, également fonctionnellement complet et testé, est développé dans un dépôt séparé : [backend-job-tracker](https://github.com/MathieuBourasseau/backend-job-tracker) (déployé sur Render, plan gratuit : la première requête après une période d'inactivité peut prendre 30 à 60 secondes le temps que l'instance se réveille).
 
 Application de suivi de candidatures (recherche d'emploi/alternance), pensée pour remplacer un suivi manuel type Excel. Projet personnel de portfolio, développé pour démontrer une maîtrise de React/TypeScript sur un projet complet consommant une API REST authentifiée : gestion de l'auth (JWT), formulaires, CRUD, état dérivé de données serveur.
 
@@ -57,9 +57,9 @@ Détail complet des DTOs et du modèle de données : voir le README du back-end.
 Pour tester rapidement sans créer de compte, un compte de démonstration est préchargé avec une douzaine de candidatures couvrant tous les statuts :
 
 - **Email** : `seed@test.com`
-- **Mot de passe** : `password123`
+- **Mot de passe** : `TestDemo2026!`
 
-(Compte disponible en local dès que la base de données de dev est lancée ; il sera repris tel quel sur l'instance déployée une fois le déploiement effectué.)
+Disponible aussi bien sur [l'instance déployée](https://job-tracker-front-three.vercel.app/) qu'en local (base de données de dev).
 
 ## Roadmap
 
@@ -70,4 +70,4 @@ Pour tester rapidement sans créer de compte, un compte de démonstration est pr
 5. ~~Vue détail / modification~~
 6. ~~Suppression~~
 7. ~~Changement de statut d'une candidature~~
-8. Déploiement (Render pour le back, Vercel pour le front)
+8. ~~Déploiement (Render pour le back, Vercel pour le front)~~
