@@ -1,4 +1,4 @@
-import type { NewApplicationFormData } from "../types/forms";
+import type { NewApplicationFormData, UpdateApplicationFormData } from "../types/forms";
 
 // API URL
 const API_URL = import.meta.env.VITE_API_URL;
@@ -82,6 +82,27 @@ export async function deleteApplicationById(token:string, id: string){
 
     if(response.ok){
         return {ok: true as const, data: "Candidature supprimée"}
+    } else {
+        const data = await response.json();
+        return {ok: false as const, error:data}
+    }
+}
+
+// --- Function to update an application by id --- 
+export async function updateApplicationById(token:string, id:string, formData: UpdateApplicationFormData){
+
+    // Ask API to update application with the new data
+    const response = await fetch(`${API_URL}/api/applications/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-type" : "application/json",
+            "Authorization" : `Bearer ${token}`
+        },
+        body: JSON.stringify(formData),
+    });
+
+    if(response.ok){
+        return {ok: true as const, data: "Candidature mise à jour"}
     } else {
         const data = await response.json();
         return {ok: false as const, error:data}
