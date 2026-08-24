@@ -236,7 +236,7 @@ export default function ApplicationDetails() {
             {/* Application choices */}
 
             <div className="flex flex-col items-start gap-2 text-sm">
-                <Link to="/candidatures" className="border-2 border-gray-200 rounded-lg px-3 py-2 hover:border-gray-500 hover:bg-gray-300 font-semibold"
+                <Link to={`/candidatures/${id}/modifier`}className="border-2 border-gray-200 rounded-lg px-3 py-2 hover:border-gray-500 hover:bg-gray-300 font-semibold"
                 >
                     <p>Modifier ma candidature</p>
                 </Link>

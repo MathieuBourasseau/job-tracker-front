@@ -5,6 +5,7 @@ import ApplicationsPage from './pages/ApplicationsPage'
 import ProtectedRoute from "./components/ProtectedRoute"
 import ApplicationDetails from "./pages/ApplicationDetails"
 import ApplicationCreate from "./pages/ApplicationCreate"
+import ApplicationEdit from "./pages/ApplicationEdit"
 
 function App() {
     return (
@@ -32,6 +33,14 @@ function App() {
                 element={
                     <ProtectedRoute>
                         <ApplicationCreate />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/candidatures/:id/modifier"
+                element={
+                    <ProtectedRoute>
+                        <ApplicationEdit />
                     </ProtectedRoute>
                 }
             />
