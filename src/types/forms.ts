@@ -25,3 +25,20 @@ export type NewApplicationFormData = {
     companyName: string;
     companyActivity: string;
 }
+
+// Update application form type
+export type UpdateApplicationFormData = {
+    link: string;
+    contact: string;
+    jobTitle: string;
+    location: string;
+    salary: number;
+    contract: string;
+    applicationDate: string;
+    companyName: string;
+    companyActivity: string;
+    applicationReSubmissionDate: string;
+    applicationReSubmissionDate2: string;
+    interview: boolean;
+    refusalReason: string;
+}
