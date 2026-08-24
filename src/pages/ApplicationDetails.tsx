@@ -269,19 +269,19 @@ export default function ApplicationDetails() {
     ).state;
 
     return (
-        <section className="max-w-2xl mx-auto flex flex-col gap-6 px-4">
-            <h1 className="text-2xl md:text-4xl lg:text-5xl">Ma candidature</h1>
+        <section className="max-w-2xl mx-auto flex flex-col gap-6 px-4 py-4 md:py-6">
+            <h1 className="text-2xl md:text-4xl lg:text-5xl py-2 md:py-4">Ma candidature</h1>
 
             {/* Application choices */}
 
-            <div className="flex flex-col items-start gap-2 text-sm">
-                <Link to={`/candidatures/${id}/modifier`}className="border-2 border-gray-200 rounded-lg px-3 py-2 hover:border-gray-500 hover:bg-gray-300 font-semibold"
+            <div className="flex flex-col items-start gap-2 text-sm md:flex-row md:flex-wrap">
+                <Link to={`/candidatures/${id}/modifier`} className="border-2 border-gray-200 rounded-lg px-3 py-2 hover:border-gray-500 hover:bg-gray-300 font-semibold"
                 >
                     <p>Modifier ma candidature</p>
                 </Link>
 
-                <Link 
-                    to="/candidatures" 
+                <Link
+                    to="/candidatures"
                     className="border-2 border-gray-200 rounded-lg px-3 py-2 hover:border-gray-500 hover:bg-gray-300 font-semibold"
                 >
                     <p>Revenir à mes candidatures</p>

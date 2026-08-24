@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useNavigate } from "react-router"
+import { Link, useNavigate } from "react-router"
 import { useAuth } from "../hooks/useAuth";
 import type { NewApplicationFormData } from "../types/forms";
 import { createApplication } from "../api/application";
@@ -97,115 +97,145 @@ export default function ApplicationCreate() {
         content = successMessage;
     } else {
         content = (
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                <fieldset className="flex flex-col gap-4">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+                <fieldset className="flex flex-col gap-6">
                     <legend className="sr-only">Nouvelle candidature</legend>
 
-                    <div className="flex flex-col gap-1">
-                        <label htmlFor="companyName">Entreprise</label>
-                        <input
-                            type="text"
-                            onChange={handleChange}
-                            name="companyName"
-                            id="companyName"
-                            value={formData.companyName}
-                            placeholder="Nom de l'entreprise"
-                        />
+                    {/* Section: entreprise */}
+                    <div className="flex flex-col gap-4">
+                        <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                            Entreprise
+                        </h3>
+
+                        <div className="flex flex-col gap-1">
+                            <label htmlFor="companyName">Entreprise</label>
+                            <input
+                                type="text"
+                                onChange={handleChange}
+                                name="companyName"
+                                id="companyName"
+                                value={formData.companyName}
+                                placeholder="Nom de l'entreprise"
+                                className="border-2 border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:border-gray-500"
+                            />
+                        </div>
+
+                        <div className="flex flex-col gap-1">
+                            <label htmlFor="companyActivity">Secteur d'activité</label>
+                            <input
+                                type="text"
+                                onChange={handleChange}
+                                name="companyActivity"
+                                id="companyActivity"
+                                value={formData.companyActivity}
+                                placeholder="Tech, Finance, ..."
+                                className="border-2 border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:border-gray-500"
+                            />
+                        </div>
                     </div>
 
-                    <div className="flex flex-col gap-1">
-                        <label htmlFor="companyActivity">Secteur d'activité</label>
-                        <input
-                            type="text"
-                            onChange={handleChange}
-                            name="companyActivity"
-                            id="companyActivity"
-                            value={formData.companyActivity}
-                            placeholder="Tech, Finance, ..."
-                        />
+                    {/* Section: poste */}
+                    <div className="flex flex-col gap-4 border-t border-gray-200 pt-6">
+                        <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                            Poste
+                        </h3>
+
+                        <div className="flex flex-col gap-1">
+                            <label htmlFor="jobTitle">Intitulé du poste</label>
+                            <input
+                                type="text"
+                                onChange={handleChange}
+                                name="jobTitle"
+                                id="jobTitle"
+                                value={formData.jobTitle}
+                                placeholder="Développeur Frontend"
+                                className="border-2 border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:border-gray-500"
+                            />
+                        </div>
+
+                        <div className="flex flex-col gap-1">
+                            <label htmlFor="location">Localisation</label>
+                            <input
+                                type="text"
+                                onChange={handleChange}
+                                name="location"
+                                id="location"
+                                value={formData.location}
+                                placeholder="Paris"
+                                className="border-2 border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:border-gray-500"
+                            />
+                        </div>
+
+                        <div className="flex flex-col gap-1">
+                            <label htmlFor="contract">Type de contrat</label>
+                            <input
+                                type="text"
+                                onChange={handleChange}
+                                name="contract"
+                                id="contract"
+                                value={formData.contract}
+                                placeholder="CDI"
+                                className="border-2 border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:border-gray-500"
+                            />
+                        </div>
+
+                        <div className="flex flex-col gap-1">
+                            <label htmlFor="salary">Salaire</label>
+                            <input
+                                type="number"
+                                onChange={handleChange}
+                                name="salary"
+                                id="salary"
+                                value={formData.salary}
+                                placeholder="38000"
+                                className="border-2 border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:border-gray-500"
+                            />
+                        </div>
                     </div>
 
-                    <div className="flex flex-col gap-1">
-                        <label htmlFor="jobTitle">Intitulé du poste</label>
-                        <input
-                            type="text"
-                            onChange={handleChange}
-                            name="jobTitle"
-                            id="jobTitle"
-                            value={formData.jobTitle}
-                            placeholder="Développeur Frontend"
-                        />
-                    </div>
+                    {/* Section: candidature */}
+                    <div className="flex flex-col gap-4 border-t border-gray-200 pt-6">
+                        <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                            Candidature
+                        </h3>
 
-                    <div className="flex flex-col gap-1">
-                        <label htmlFor="location">Localisation</label>
-                        <input
-                            type="text"
-                            onChange={handleChange}
-                            name="location"
-                            id="location"
-                            value={formData.location}
-                            placeholder="Paris"
-                        />
-                    </div>
+                        <div className="flex flex-col gap-1">
+                            <label htmlFor="applicationDate">Date de candidature</label>
+                            <input
+                                type="date"
+                                onChange={handleChange}
+                                name="applicationDate"
+                                id="applicationDate"
+                                value={formData.applicationDate}
+                                className="border-2 border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:border-gray-500"
+                            />
+                        </div>
 
-                    <div className="flex flex-col gap-1">
-                        <label htmlFor="contract">Type de contrat</label>
-                        <input
-                            type="text"
-                            onChange={handleChange}
-                            name="contract"
-                            id="contract"
-                            value={formData.contract}
-                            placeholder="CDI"
-                        />
-                    </div>
+                        <div className="flex flex-col gap-1">
+                            <label htmlFor="contact">Contact</label>
+                            <input
+                                type="text"
+                                onChange={handleChange}
+                                name="contact"
+                                id="contact"
+                                value={formData.contact}
+                                placeholder="rh@entreprise.com"
+                                className="border-2 border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:border-gray-500"
+                            />
+                        </div>
 
-                    <div className="flex flex-col gap-1">
-                        <label htmlFor="salary">Salaire</label>
-                        <input
-                            type="number"
-                            onChange={handleChange}
-                            name="salary"
-                            id="salary"
-                            value={formData.salary}
-                            placeholder="38000"
-                        />
-                    </div>
-
-                    <div className="flex flex-col gap-1">
-                        <label htmlFor="applicationDate">Date de candidature</label>
-                        <input
-                            type="date"
-                            onChange={handleChange}
-                            name="applicationDate"
-                            id="applicationDate"
-                            value={formData.applicationDate}
-                        />
-                    </div>
-
-                    <div className="flex flex-col gap-1">
-                        <label htmlFor="contact">Contact</label>
-                        <input
-                            type="text"
-                            onChange={handleChange}
-                            name="contact"
-                            id="contact"
-                            value={formData.contact}
-                            placeholder="rh@entreprise.com"
-                        />
-                    </div>
-
-                    <div className="flex flex-col gap-1">
-                        <label htmlFor="link">Lien de l'annonce</label>
-                        <input
-                            type="text"
-                            onChange={handleChange}
-                            name="link"
-                            id="link"
-                            value={formData.link}
-                            placeholder="https://..."
-                        />
+                        <div className="flex flex-col gap-1">
+                            <label htmlFor="link">Lien de l'annonce</label>
+                            <input
+                                type="text"
+                                onChange={handleChange}
+                                name="link"
+                                id="link"
+                                value={formData.link}
+                                placeholder="https://..."
+                                className="border-2 border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:border-gray-500"
+                            />
+                        </div>
                     </div>
 
                     <button
@@ -220,8 +250,16 @@ export default function ApplicationCreate() {
     }
 
     return (
-        <section className="max-w-2xl mx-auto flex flex-col gap-6 px-4">
-            <h1 className="text-2xl md:text-4xl lg:text-5xl">Ajouter une nouvelle candidature</h1>
+        <section className="max-w-2xl mx-auto flex flex-col gap-6 px-4 py-4 md:py-6">
+            <h1 className="text-2xl md:text-4xl lg:text-5xl py-2 md:py-4">Ajouter une nouvelle candidature</h1>
+
+            <Link
+                to="/candidatures"
+                className="self-start border-2 border-gray-200 rounded-lg px-3 py-2 hover:border-gray-500 hover:bg-gray-300 font-semibold text-sm"
+            >
+                Revenir à mes candidatures
+            </Link>
+
             {content}
         </section>
     )
