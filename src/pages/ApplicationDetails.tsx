@@ -275,36 +275,36 @@ export default function ApplicationDetails() {
             {/* Application choices */}
 
             <div className="flex flex-col items-start gap-2 text-sm md:flex-row md:flex-wrap">
-                <Link to={`/candidatures/${id}/modifier`} className="border-2 border-gray-200 rounded-lg px-3 py-2 hover:border-gray-500 hover:bg-gray-300 font-semibold"
+                <Link to={`/candidatures/${id}/modifier`} className="bg-green-600 text-white rounded-lg px-3 py-2 hover:bg-green-700 font-semibold"
                 >
                     <p>Modifier ma candidature</p>
                 </Link>
 
                 <Link
                     to="/candidatures"
-                    className="border-2 border-gray-200 rounded-lg px-3 py-2 hover:border-gray-500 hover:bg-gray-300 font-semibold"
+                    className="bg-green-600 text-white rounded-lg px-3 py-2 hover:bg-green-700 font-semibold"
                 >
                     <p>Revenir à mes candidatures</p>
                 </Link>
                 <button
-                    className="border-2 border-gray-200 rounded-lg px-3 py-2 hover:border-gray-500 hover:bg-gray-300 font-semibold"
+                    className="bg-red-600 text-white rounded-lg px-3 py-2 hover:bg-red-700 font-semibold cursor-pointer"
                     onClick={() => handleDelete()}
                 >
                     <p>Supprimer ma candidature</p>
                 </button>
                 <button
-                    className="border-2 border-gray-200 rounded-lg px-3 py-2 hover:border-gray-500 hover:bg-gray-300 font-semibold disabled:opacity-50 disabled:hover:border-gray-200 disabled:hover:bg-transparent"
+                    className="bg-yellow-300 text-black rounded-lg px-3 py-2 hover:bg-yellow-400 font-semibold cursor-pointer disabled:opacity-50 disabled:hover:bg-yellow-300 disabled:cursor-not-allowed"
                     onClick={() => handleStatusChange("EN_COURS")}
                     disabled={!application || isChangingStatus || latestStatus === "EN_COURS"}
                 >
-                    <p>Passer en cours</p>
+                    <p>Marquer comme en cours</p>
                 </button>
                 <button
-                    className="border-2 border-gray-200 rounded-lg px-3 py-2 hover:border-gray-500 hover:bg-gray-300 font-semibold disabled:opacity-50 disabled:hover:border-gray-200 disabled:hover:bg-transparent"
+                    className="bg-red-600 text-white rounded-lg px-3 py-2 hover:bg-red-700 font-semibold cursor-pointer disabled:opacity-50 disabled:hover:bg-red-600 disabled:cursor-not-allowed"
                     onClick={() => handleStatusChange("REFUS")}
                     disabled={!application || isChangingStatus || latestStatus === "REFUS"}
                 >
-                    <p>Marquer refusée</p>
+                    <p>Marquer comme refusée</p>
                 </button>
             </div>
 

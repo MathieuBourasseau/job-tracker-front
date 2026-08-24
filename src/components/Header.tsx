@@ -18,7 +18,7 @@ export default function Header() {
                         <p className="hidden md:block text-gray-500">{email}</p>
                         <button
                             onClick={() => logout()}
-                            className="whitespace-nowrap border-2 border-gray-200 rounded-lg px-3 py-2 hover:border-gray-500 hover:bg-gray-300 font-semibold"
+                            className="whitespace-nowrap border-2 border-gray-200 rounded-lg px-3 py-2 hover:border-gray-500 hover:bg-gray-300 font-semibold cursor-pointer"
                         >
                             Se déconnecter
                         </button>

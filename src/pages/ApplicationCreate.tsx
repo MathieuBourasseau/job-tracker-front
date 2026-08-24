@@ -240,7 +240,7 @@ export default function ApplicationCreate() {
 
                     <button
                         type="submit"
-                        className="border-2 border-gray-200 rounded-lg px-3 py-2 hover:border-gray-500 hover:bg-gray-300 font-semibold"
+                        className="bg-green-600 text-white rounded-lg px-3 py-2 hover:bg-green-700 font-semibold cursor-pointer"
                     >
                         Ajouter la candidature
                     </button>
@@ -255,7 +255,7 @@ export default function ApplicationCreate() {
 
             <Link
                 to="/candidatures"
-                className="self-start border-2 border-gray-200 rounded-lg px-3 py-2 hover:border-gray-500 hover:bg-gray-300 font-semibold text-sm"
+                className="self-start bg-green-600 text-white rounded-lg px-3 py-2 hover:bg-green-700 font-semibold text-sm"
             >
                 Revenir à mes candidatures
             </Link>

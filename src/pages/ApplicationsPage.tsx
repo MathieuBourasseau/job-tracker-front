@@ -112,9 +112,9 @@ export default function ApplicationsPage() {
     return (
         <section className="max-w-2xl mx-auto flex flex-col gap-6 px-4 py-4 md:py-6">
             <h1 className="text-center text-2xl md:text-4xl lg:text-5xl py-2 md:py-4">Mes candidatures</h1>
-            <Link 
+            <Link
                 to="/candidatures/ajouter"
-                className="self-start border-2 border-gray-200 rounded-lg px-3 py-2 hover:border-gray-500 hover:bg-gray-300 font-semibold"
+                className="self-start bg-green-600 text-white rounded-lg px-3 py-2 hover:bg-green-700 font-semibold"
             >
                 Ajouter une candidature
             </Link>
