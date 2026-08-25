@@ -149,8 +149,8 @@ export default function LoginPage() {
     }
 
     return (
-        <section className="max-w-md mx-auto flex flex-col gap-6 px-4 py-4 md:py-6 mt-12">
-            <h1 className="text-left md:text-center text-2xl md:text-4xl lg:text-5xl py-2 md:py-4">Connexion</h1>
+        <section className="max-w-md mx-auto flex-1 flex flex-col gap-6 px-4 py-8 md:py-6">
+            <h1 className="text-center text-2xl md:text-4xl lg:text-5xl py-2 md:py-4">Connexion</h1>
             {content}
             <p className="text-sm">
                 Pas encore de compte ? <Link to="/register" className="underline font-semibold">Créer un compte</Link>
